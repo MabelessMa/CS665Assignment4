@@ -1,33 +1,52 @@
 package edu.bu.met.cs665.assignment4;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
 
+/**
+ * JUnit Test Class for CustomerDataAdapter
+ * This class contains unit tests to verify the functionality of the adapter.
+ */
 public class CustomerDataAdapterTest {
 
-    private CustomerDataViaHttps newSystem;
-    private CustomerDataViaUsb adapter;
+    private CustomerDataViaHttps newSystem;     // Reference to the new system
+    private CustomerDataViaUsb adapter;         // Adapter instance
 
+    /**
+     * Setup method to initialize instances before each test.
+     */
     @BeforeEach
     public void setUp() {
-        // 使用新系统的具体实现，并通过适配器适配成旧系统接口
+        // Initialize new system implementation and adapter
         newSystem = new CustomerDataViaHttpsImpl();
         adapter = new CustomerDataAdapter(newSystem);
     }
 
+    /**
+     * Test to verify that the adapter initializes correctly.
+     */
     @Test
-    public void testPrintCustomer() {
-        // 测试printCustomer方法是否正常工作
-        adapter.printCustomer(1); // 验证输出
+    public void testCustomerDataAdapter() {
+        assertNotNull(adapter, "Adapter should be initialized");
     }
 
+    /**
+     * Test to verify that the printCustomer method works correctly.
+     */
+    @Test
+    public void testPrintCustomer() {
+        adapter.printCustomer(1); // Check output manually to verify functionality
+    }
+
+    /**
+     * Test to verify that customer data can be retrieved via the adapter.
+     */
     @Test
     public void testGetCustomerViaUsb() {
-        // 测试通过适配器获取客户数据
         Customer customer = adapter.getCustomerViaUsb(1);
-        assertNotNull(customer);
-        assertEquals(1, customer.getId());
-        assertEquals("Customer1", customer.getName());
+        assertNotNull(customer, "Customer should not be null");
+        assertEquals(1, customer.getId(), "Customer ID should match");
+        assertEquals("Customer1", customer.getName(), "Customer name should match");
     }
 }
